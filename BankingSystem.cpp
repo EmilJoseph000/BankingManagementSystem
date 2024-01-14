@@ -4,30 +4,29 @@ using namespace std;
 class account{
 
 private:
-long accountNo;
-string name;
+static long nextAccountNo;
+string fname;
+string lname;
 long balance;
+long accountNo;
 
 
 public:
 
 account(){
-    accountNo;
-    name;
+    nextAccountNo++;
+    accountNo=nextAccountNo;
+    fname;
+    lname;
     balance;
   
 }
 
-long setAccountNo(long an){
-    return accountNo=an;
-}
 
-void setName(string n){
-    name = n;
-}
 
 void details(){
-  cout<<accountNo<<" "<<name<<" "<<balance<<"\n";
+    cout<<"\n";
+  cout<<accountNo<<"\n "<<fname<<" "<<lname<<"\n "<<balance<<"\n";
   cout<<"Thank you for opening an account with BMS kakanaad"<<endl;
 }
 
@@ -35,16 +34,25 @@ long setBalance(int bal){
   return balance=bal;
 }
 
+void setFname(string n){
+    fname=n;
+}
 
+void setlname(string sn){
+    lname=sn;
+}
 
 };
+
+long account::nextAccountNo=0;
 
 
 int main(){
 
 
-     int numb,initial;
-    string user;
+    int initial;
+    string name;
+    string sname;
 
 
     int options=0;
@@ -82,15 +90,13 @@ int main(){
 
         case 1:cout<<"You have selected to open an account"<<endl;
 
-  
-                    cout<<"enter account number"<<endl;
-                    cin>>numb;
-                    a.setAccountNo(numb);
+                    cout<<"\nPlease enter your first name"<<endl;
+                    cin>>name;
+                    a.setFname(name);
+                    cout<<"\nPlease enter your last name"<<endl;
+                    cin>>sname;
                     cin.ignore();
-                    cout<<"\nPlease enter your name"<<endl;
-                    getline(cin,user);
-                    a.setName(user);
-                    cin.ignore();  
+                    a.setlname(sname);
                     cout<<"Enter your initial deposit"<<endl;
                     cin>>initial;
                     a.setBalance(initial);
@@ -99,9 +105,9 @@ int main(){
                     cout<<"Account created. Thank you"<<endl;
 
                     a.details();
-                    options=0;
-                    
-        break;
+    
+                    break;
+        
 
         case 2:cout<<"You have selected to check your balance"<<endl;
             
