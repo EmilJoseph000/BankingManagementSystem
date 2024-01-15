@@ -1,4 +1,7 @@
 #include <iostream>
+#include <fstream>
+
+
 using namespace std;
 
 class account{
@@ -22,24 +25,87 @@ account(){
   
 }
 
+void openAccount(){
+     cout<<"\nPlease enter your first name"<<endl;
+                    cin>>fname;
+                    cout<<"\nPlease enter your last name"<<endl;
+                    cin>>lname;
+                    cin.ignore();
+                    cout<<"Enter your initial deposit"<<endl;
+                    cin>>balance;
+                    cout<<"************************************"<<endl;
+                    cout<<"Processing"<<endl;
+                    cout<<"Account created. Thank you"<<endl;
 
+                    fstream baccount;
+                    baccount.open("Bank.txt",ios::app);
+                        if(baccount.is_open()){
+                            baccount<<fname<<endl;
+                            baccount<<lname<<endl;
+                            baccount<<balance<<endl;
+                            baccount.close();
+                        }
+                    
 
-void details(){
-    cout<<"\n";
-  cout<<accountNo<<"\n "<<fname<<" "<<lname<<"\n "<<balance<<"\n";
-  cout<<"Thank you for opening an account with BMS kakanaad"<<endl;
 }
 
-long setBalance(int bal){
-  return balance=bal;
+
+
+
+void searchAccount(){
+    long acno;
+    string a;
+    string b;
+    long ano;
+
+    fstream search;
+    cout<<"enter your account number"<<endl;
+    cin>>acno;
+
+    search.open("Bank.txt",ios::in);
+    while(!search.eof()){
+    if(acno==accountNo){
+       search>>a;
+       search>>b;
+       search>>ano;
+       cout<<a<<" "<<b<<" "<<ano<<endl; 
+        return;
+    }
+    
+    cout<<"no record found"<<endl;
+    return;
+    }
+    
+
+    search.close();
+
 }
 
-void setFname(string n){
-    fname=n;
+int fundIn(int d){
+  return  balance+=d;
 }
 
-void setlname(string sn){
-    lname=sn;
+void deposit(){
+
+    long ac;
+    long d;
+    cout<<"Please enter your accout No to start depositing funds"<<endl;
+    cin>>ac;
+
+    fstream deposit;
+    deposit.open("Bank.txt",ios::app);
+
+    while(!deposit.eof()){
+    if(ac==accountNo){
+        cout<<"enter deposit amount"<<endl;
+        cin>>d;
+        deposit<<fundIn(d);
+        return;
+    }
+    cout<<"account not found"<<endl;
+    }
+
+    deposit.close();
 }
 
 };
@@ -48,11 +114,7 @@ long account::nextAccountNo=0;
 
 
 int main(){
-
-
-    int initial;
-    string name;
-    string sname;
+    
 
 
     int options=0;
@@ -90,30 +152,23 @@ int main(){
 
         case 1:cout<<"You have selected to open an account"<<endl;
 
-                    cout<<"\nPlease enter your first name"<<endl;
-                    cin>>name;
-                    a.setFname(name);
-                    cout<<"\nPlease enter your last name"<<endl;
-                    cin>>sname;
-                    cin.ignore();
-                    a.setlname(sname);
-                    cout<<"Enter your initial deposit"<<endl;
-                    cin>>initial;
-                    a.setBalance(initial);
-                    cout<<"************************************"<<endl;
-                    cout<<"Processing"<<endl;
-                    cout<<"Account created. Thank you"<<endl;
+                   a.openAccount();
 
-                    a.details();
+                    options=0;
     
-                    break;
+        break;            
         
 
         case 2:cout<<"You have selected to check your balance"<<endl;
+        a.searchAccount();
             
         break;
 
+
+
         case 3:cout<<"You have selected to deposit funds"<<endl;
+            a.deposit();
+            
         break;
 
         case 4:cout<<"You have selected to withdraw"<<endl;
