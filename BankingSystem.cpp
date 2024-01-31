@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <map>
 
 
 using namespace std;
@@ -25,87 +26,78 @@ account(){
   
 }
 
-void openAccount(){
-     cout<<"\nPlease enter your first name"<<endl;
-                    cin>>fname;
-                    cout<<"\nPlease enter your last name"<<endl;
-                    cin>>lname;
-                    cin.ignore();
-                    cout<<"Enter your initial deposit"<<endl;
-                    cin>>balance;
-                    cout<<"************************************"<<endl;
-                    cout<<"Processing"<<endl;
-                    cout<<"Account created. Thank you"<<endl;
+void createAccount(string fn,string ln,long init){
+    fname=fn;
+    lname=ln;
+    balance=init;
+  
+}
 
-                    fstream baccount;
-                    baccount.open("Bank.txt",ios::app);
-                        if(baccount.is_open()){
-                            baccount<<fname<<endl;
-                            baccount<<lname<<endl;
-                            baccount<<balance<<endl;
-                            baccount.close();
-                        }
-                    
-
+long getaccountnum(){
+    return accountNo;
 }
 
 
 
+long showdetails(long acn){
 
-void searchAccount(){
-    long acno;
-    string a;
-    string b;
-    long ano;
-
-    fstream search;
-    cout<<"enter your account number"<<endl;
-    cin>>acno;
-
-    search.open("Bank.txt",ios::in);
-    while(!search.eof()){
-    if(acno==accountNo){
-       search>>a;
-       search>>b;
-       search>>ano;
-       cout<<a<<" "<<b<<" "<<ano<<endl; 
-        return;
+    if(acn==accountNo){
+        cout<<fname<<endl;
+        cout<<lname<<endl;
+        cout<<accountNo<<endl;
+        cout<<balance<<endl;
     }
+
+    return 0;
+}
+
+long deposit(long acn,long amount){
+    if(acn==accountNo){
+        balance+=amount;
+        cout<<"thank you for depositing"<<endl;
+    }
+    return 0;
+}
+
+long withdraw(long acn,long amount){
+    if(acn==accountNo){
+        balance-=amount;
+        cout<<"thank you for withdrawing"<<endl;
+    }
+    return 0;
+}
+
+long balanceEnquiry(long acn){
+    if(acn==accountNo){
+    cout<<fname<<endl;
+    cout<<lname<<endl;
+    cout<<accountNo<<endl;
+    cout<<balance<<endl;
+    }   
+    return 0;
+}
+
+
+
+long disableAccount(long acn){
+    char ch;
+    if(acn=accountNo){
+        cout<<"are you that you want to close your account"<<endl;
+        cout<<"select y/n"<<endl;
+        cin>>ch;
+        if(ch='y'){
+            fname="disabled";
+            lname="disabled";
     
-    cout<<"no record found"<<endl;
-    return;
-    }
-    
-
-    search.close();
-
-}
-
-int fundIn(int d){
-  return  balance+=d;
-}
-
-void deposit(){
-
-    long ac;
-    long d;
-    cout<<"Please enter your accout No to start depositing funds"<<endl;
-    cin>>ac;
-
-    fstream deposit;
-    deposit.open("Bank.txt",ios::app);
-
-    while(!deposit.eof()){
-    if(ac==accountNo){
-        cout<<"enter deposit amount"<<endl;
-        cin>>d;
-        deposit<<fundIn(d);
-        return;
-    }
-    cout<<"account not found"<<endl;
+        }
+        else if (ch='n'){
+            
+        }
     }
 
-    deposit.close();
+        cout<<"thank you for choosing BMS"<<endl;
+
+    return 0;
 }
 
 };
@@ -113,80 +105,49 @@ void deposit(){
 long account::nextAccountNo=0;
 
 
+
+
+
 int main(){
     
 
+account a;
 
-    int options=0;
-    int op;
+a.createAccount("emil","joseph",5000);
 
-    account a;
+cout<<a.getaccountnum();
 
-    cout<<"***Banking System***"<<endl;
+cout<<"\n"<<endl;
 
-    cout<<"\n"<<endl;
+a.showdetails(1);
 
-    cout<<"Select one option from below"<<endl;
-    cout<<"\n"<<"1  open an account"<<endl;
-    cout<<"2  Balance Enquiry"<<endl;
-    cout<<"3  Deposit"<<endl;
-    cout<<"4  withdrawal"<<endl;
-    cout<<"5  close an account"<<endl;
-    cout<<"6  show all accounts"<<endl;
-    cout<<"7  quit"<<endl;
+a.deposit(1,4000);
 
-    cout<<"Enter your choice: ";
+cout<<"\n"<<endl;
 
-    cin>>options;
+a.showdetails(1);
 
-    do{
-    
-    switch(options){
-        case 0: while(options==0){
-            cout<<"choose an option from 1 to 7"<<endl;
-            cin>>op;
+cout<<"\n"<<endl;
+cout<<"\n"<<endl;
 
-        }
-        options=op;
-        break;
+a.withdraw(1,6000);
 
-        case 1:cout<<"You have selected to open an account"<<endl;
+cout<<"\n"<<endl;
 
-                   a.openAccount();
+a.showdetails(1);
 
-                    options=0;
-    
-        break;            
-        
+cout<<"\n"<<endl;
 
-        case 2:cout<<"You have selected to check your balance"<<endl;
-        a.searchAccount();
-            
-        break;
+a.balanceEnquiry(1);
 
+cout<<"\n"<<endl;
 
+a.disableAccount(1);
 
-        case 3:cout<<"You have selected to deposit funds"<<endl;
-            a.deposit();
-            
-        break;
+cout<<"\n"<<endl;
 
-        case 4:cout<<"You have selected to withdraw"<<endl;
-        break;
+a.showdetails(1);
 
-        case 5:cout<<"You have selected to close your account"<<endl;
-        break;
+ return 0;
 
-        case 6:cout<<"show all accounts"<<endl;
-        break;
-
-        case 7:cout<<"Exit"<<endl;
-        break;
-
-        default:cout<<"not a valid selection"<<endl;
-
-    }
-    }while(options!=7);   
-
-    return 0;
 }
