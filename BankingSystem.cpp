@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <string>
 
 
 using namespace std;
@@ -26,79 +27,61 @@ account(){
   
 }
 
-void createAccount(string fn,string ln,long init){
-    fname=fn;
-    lname=ln;
-    balance=init;
-  
+void createAccount(){
+
+  cout<<"Please enter your first name"<<endl;
+  cin>>fname;
+
+  cout<<"please enter your second name"<<endl;
+  cin>>lname;
+
+  cout<<"please enter your initial deposit"<<endl;
+  cin>>balance;
+
+
 }
 
+
 long getaccountnum(){
+
     return accountNo;
 }
 
 
-
-long showdetails(long acn){
+void showAccount(long acn){
 
     if(acn==accountNo){
-        cout<<fname<<endl;
-        cout<<lname<<endl;
-        cout<<accountNo<<endl;
-        cout<<balance<<endl;
+        cout<<"first name: "<<fname<<endl;
+        cout<<"last name: "<<lname<<endl;
+        cout<<"Accoungt #: "<<accountNo<<endl;
+        cout<<"Balance: "<<balance<<endl;
     }
 
-    return 0;
 }
 
-long deposit(long acn,long amount){
-    if(acn==accountNo){
-        balance+=amount;
-        cout<<"thank you for depositing"<<endl;
-    }
-    return 0;
-}
-
-long withdraw(long acn,long amount){
-    if(acn==accountNo){
-        balance-=amount;
-        cout<<"thank you for withdrawing"<<endl;
-    }
-    return 0;
-}
-
-long balanceEnquiry(long acn){
-    if(acn==accountNo){
-    cout<<fname<<endl;
-    cout<<lname<<endl;
-    cout<<accountNo<<endl;
-    cout<<balance<<endl;
-    }   
-    return 0;
-}
-
-
-
-long disableAccount(long acn){
-    char ch;
-    if(acn=accountNo){
-        cout<<"are you that you want to close your account"<<endl;
-        cout<<"select y/n"<<endl;
-        cin>>ch;
-        if(ch='y'){
-            fname="disabled";
-            lname="disabled";
     
-        }
-        else if (ch='n'){
-            
-        }
+
+void writeToAccount(){
+
+    ofstream outfile;
+    outfile.open("Bank.txt",ios::app);
+
+  
+    outfile<<createAccount();
+
+    outfile.close();
     }
 
-        cout<<"thank you for choosing BMS"<<endl;
 
-    return 0;
-}
+
+
+
+
+
+
+
+
+
 
 };
 
@@ -113,40 +96,14 @@ int main(){
 
 account a;
 
-a.createAccount("emil","joseph",5000);
 
-cout<<a.getaccountnum();
+cout<<"\n";
 
-cout<<"\n"<<endl;
 
-a.showdetails(1);
+a.writeToAccount();
 
-a.deposit(1,4000);
 
-cout<<"\n"<<endl;
 
-a.showdetails(1);
-
-cout<<"\n"<<endl;
-cout<<"\n"<<endl;
-
-a.withdraw(1,6000);
-
-cout<<"\n"<<endl;
-
-a.showdetails(1);
-
-cout<<"\n"<<endl;
-
-a.balanceEnquiry(1);
-
-cout<<"\n"<<endl;
-
-a.disableAccount(1);
-
-cout<<"\n"<<endl;
-
-a.showdetails(1);
 
  return 0;
 
