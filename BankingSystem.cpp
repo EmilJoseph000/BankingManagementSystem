@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include <map>
 #include <string>
 
 
@@ -9,22 +8,22 @@ using namespace std;
 class account{
 
 private:
-static long nextAccountNo;
 string fname;
 string lname;
 long balance;
 long accountNo;
+long tracker=1;
 
 
 public:
 
 account(){
-    nextAccountNo++;
-    accountNo=nextAccountNo;
+    accountNo;
     fname;
     lname;
     balance;
-  
+    tracker;
+
 }
 
 void createAccount(){
@@ -37,39 +36,132 @@ void createAccount(){
 
   cout<<"please enter your initial deposit"<<endl;
   cin>>balance;
-
-
 }
 
 
-long getaccountnum(){
+long deposit(){
 
-    return accountNo;
-}
+ // long amount;
+  long accN;
+  long deposit;
+  
+  string fname;
+  string lname;
+  long accountn;
+  long balance;
+  long track;
 
+  cout<<"Please enter your account number"<<endl;
+  cin>>accN;
 
-void showAccount(long acn){
+ /* cout<<"please enter your deposit amount"<<endl;
+  cin>>amount;
+*/
+  fstream infile;
 
-    if(acn==accountNo){
-        cout<<"first name: "<<fname<<endl;
-        cout<<"last name: "<<lname<<endl;
-        cout<<"Accoungt #: "<<accountNo<<endl;
-        cout<<"Balance: "<<balance<<endl;
+  infile.open("Bank.txt",ios::in);
+
+  if(infile.is_open()){
+    if(accN==2){
+      while(!infile.eof()){
+        infile >> fname;
+        infile >> lname;
+        infile >> accountn;
+        infile >> balance;
+        infile >> track;
+
+        cout<<fname<<endl;
+        break;
+
+      }
     }
+  }
 
+  infile.close();
+
+
+  return 0;
 }
 
+
+
+
+void showAllAccount(){
+
+    string line;
+  
+    fstream myfile;
+    myfile.open("Bank.txt",ios::in);
+
+      if(myfile.is_open()){
+        while(getline(myfile, line)){
+
+          cout<<line<<endl;
+        }
+
+        myfile.close();
+      }
+      
+}
+
+long setLastAccountNo(){
+  long line;
+  long counter=0;
+
+  string name;
+  string lname;
+  long acn;
+  long depo;
+
+  fstream filein;
+
+  filein.open("Bank.txt",ios::in);
+  if(filein.is_open()){
+    while(!filein.eof()){
+    filein >> name;
+    filein >> lname;
+    filein >> acn;
+    filein >> depo;
+    filein>> line;
+      
+     counter++;
+    }
+    filein.close();
+  }
+  return accountNo=counter;
+}
+
+
+
+
+
+
+void showAccount(){
+
+   cout<<"first name: "<<fname<<endl;
+   cout<<"last name: "<<lname<<endl;
+   cout<<"Accoungt #: "<<accountNo<<endl;
+   cout<<"Balance: "<<balance<<endl;
     
+}
+
+
 
 void writeToAccount(){
 
     ofstream outfile;
     outfile.open("Bank.txt",ios::app);
 
-  
-    outfile<<createAccount();
-
+  if(outfile.is_open()){
+    outfile<< fname<< endl;
+    outfile<< lname<< endl;
+    outfile<< accountNo<< endl;
+    outfile<< balance<< endl;
+    outfile<< tracker<<endl;
     outfile.close();
+  }  
+    
+
     }
 
 
@@ -85,25 +177,23 @@ void writeToAccount(){
 
 };
 
-long account::nextAccountNo=0;
 
 
 
 
 
 int main(){
-    
+
 
 account a;
 
 
-cout<<"\n";
 
+  
 
-a.writeToAccount();
-
-
-
+  
+ 
+  
 
  return 0;
 
