@@ -8,11 +8,11 @@ using namespace std;
 class account{
 
 private:
-string fname;
-string lname;
+char fname[50];
+char lname[50];
 long balance;
 long accountNo;
-long tracker=1;
+
 
 
 public:
@@ -22,7 +22,6 @@ account(){
     fname;
     lname;
     balance;
-    tracker;
 
 }
 
@@ -36,6 +35,11 @@ void createAccount(){
 
   cout<<"please enter your initial deposit"<<endl;
   cin>>balance;
+/*
+  cout<<"acc"<<endl;
+  cin>>accountNo;
+*/
+  
 }
 
 
@@ -49,7 +53,7 @@ long deposit(){
   string lname;
   long accountn;
   long balance;
-  long track;
+
 
   cout<<"Please enter your account number"<<endl;
   cin>>accN;
@@ -62,20 +66,19 @@ long deposit(){
   infile.open("Bank.txt",ios::in);
 
   if(infile.is_open()){
-    if(accN==2){
       while(!infile.eof()){
+        if(accN)
         infile >> fname;
         infile >> lname;
         infile >> accountn;
         infile >> balance;
-        infile >> track;
 
         cout<<fname<<endl;
         break;
 
       }
     }
-  }
+
 
   infile.close();
 
@@ -84,28 +87,8 @@ long deposit(){
 }
 
 
-
-
-void showAllAccount(){
-
-    string line;
-  
-    fstream myfile;
-    myfile.open("Bank.txt",ios::in);
-
-      if(myfile.is_open()){
-        while(getline(myfile, line)){
-
-          cout<<line<<endl;
-        }
-
-        myfile.close();
-      }
-      
-}
-
 long setLastAccountNo(){
-  long line;
+
   long counter=0;
 
   string name;
@@ -113,16 +96,17 @@ long setLastAccountNo(){
   long acn;
   long depo;
 
-  fstream filein;
+  account ac;
 
-  filein.open("Bank.txt",ios::in);
+  ifstream filein;
+
+  filein.open("Bank.dat",ios::in);
   if(filein.is_open()){
     while(!filein.eof()){
-    filein >> name;
-    filein >> lname;
-    filein >> acn;
-    filein >> depo;
-    filein>> line;
+
+    filein.read((char*)&ac,sizeof(ac));
+      
+
       
      counter++;
     }
@@ -132,42 +116,37 @@ long setLastAccountNo(){
 }
 
 
+long getAccountNum(){
+  return accountNo;
+}
 
 
 
+void accountDetails(){
 
-void showAccount(){
+  cout<<"\n";
+  cout<<"Account Details are ";
+  cout<<"\n";
 
-   cout<<"first name: "<<fname<<endl;
-   cout<<"last name: "<<lname<<endl;
-   cout<<"Accoungt #: "<<accountNo<<endl;
+   cout<<"First Name: "<<fname<<endl;
+   cout<<"Last Name: "<<lname<<endl;
+   cout<<"Account No: "<<accountNo<<endl;
    cout<<"Balance: "<<balance<<endl;
     
 }
 
 
+string getFirstName(){
+  return fname;
+}
 
-void writeToAccount(){
+string getLastName(){
+  return lname;
+}
 
-    ofstream outfile;
-    outfile.open("Bank.txt",ios::app);
-
-  if(outfile.is_open()){
-    outfile<< fname<< endl;
-    outfile<< lname<< endl;
-    outfile<< accountNo<< endl;
-    outfile<< balance<< endl;
-    outfile<< tracker<<endl;
-    outfile.close();
-  }  
-    
-
-    }
-
-
-
-
-
+long getBalance(){
+  return balance;
+}
 
 
 
@@ -177,24 +156,86 @@ void writeToAccount(){
 
 };
 
+void writeToAccount(){
+  account ac;
+
+  ac.setLastAccountNo();
+  
+  
+  ofstream outfile;
+  outfile.open("Bank.dat",ios::binary |ios::app);
+
+  ac.createAccount();
+
+  outfile.write((char*)&ac,sizeof(ac));
+  outfile.close();
+  ac.accountDetails();
+  }
 
 
+void searchInAccount(){
 
+    account ac;
+    long accountNo;
+
+    cout<<"Please enter your account number"<<endl;
+    cin>>accountNo;
+  
+    ifstream infile;
+    infile.open("Bank.dat",ios::binary|ios::in);
+
+      if(infile.is_open()){
+        while(!infile.eof()){
+
+          infile.read((char*)&ac,sizeof(ac));
+
+        if(accountNo==ac.getAccountNum())
+        {
+          ac.accountDetails();
+        }
+          
+
+        }
+
+
+      }
+        infile.close();
+}
+
+    
+
+
+void showAllAccount(){
+
+    account ac;
+    ifstream infile;
+    infile.open("Bank.dat",ios::binary|ios::in);
+
+      if(infile.is_open()){
+        while(!infile.eof()){
+
+          infile.read((char*)&ac,sizeof(ac));
+
+          
+          ac.accountDetails();
+          
+        }
+        
+        
+      }
+        infile.close();
+}
 
 
 int main(){
 
 
-account a;
+account ac;
 
+ searchInAccount();
 
-
-  
-
-  
- 
-  
 
  return 0;
 
 }
+
