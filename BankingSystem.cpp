@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-
+#include <cstring>
 
 using namespace std;
 
@@ -43,48 +43,7 @@ void createAccount(){
 }
 
 
-long deposit(){
 
- // long amount;
-  long accN;
-  long deposit;
-  
-  string fname;
-  string lname;
-  long accountn;
-  long balance;
-
-
-  cout<<"Please enter your account number"<<endl;
-  cin>>accN;
-
- /* cout<<"please enter your deposit amount"<<endl;
-  cin>>amount;
-*/
-  fstream infile;
-
-  infile.open("Bank.txt",ios::in);
-
-  if(infile.is_open()){
-      while(!infile.eof()){
-        if(accN)
-        infile >> fname;
-        infile >> lname;
-        infile >> accountn;
-        infile >> balance;
-
-        cout<<fname<<endl;
-        break;
-
-      }
-    }
-
-
-  infile.close();
-
-
-  return 0;
-}
 
 
 long setLastAccountNo(){
@@ -104,10 +63,8 @@ long setLastAccountNo(){
   if(filein.is_open()){
     while(!filein.eof()){
 
-    filein.read((char*)&ac,sizeof(ac));
-      
-
-      
+      filein.read((char*)&ac,sizeof(ac));
+        
      counter++;
     }
     filein.close();
@@ -148,10 +105,20 @@ long getBalance(){
   return balance;
 }
 
+long setDeposit(long dep){
+  return balance+=dep;
+}
 
+long cashOut(long withdraw){
+  return balance-=withdraw;
+}
 
+void disable(){
 
-
+strcpy(fname, "diabled");
+strcpy(lname, "diabled");
+balance=0;
+}
 
 
 };
@@ -202,7 +169,110 @@ void searchInAccount(){
         infile.close();
 }
 
+void withdraw(){
+
+    account ac;
+    long accountNo;
+    long withdraw;
+
+    cout<<"Please enter your account number"<<endl;
+    cin>>accountNo;
+
+    cout<<"Please enter the amount to withdraw"<<endl;
+    cin>>withdraw;
+
+    fstream file;
+    file.open("Bank.dat",ios::binary|ios::in|ios::out);
+
+      if(file.is_open()){
+        while(!file.eof()){
+
+          file.read((char*)&ac,sizeof(ac));
+
+        if(accountNo==ac.getAccountNum())
+        {
+          cout<<"Current:"<<endl;
+          ac.accountDetails();
+          ac.cashOut(withdraw);
+
+          file.seekp(static_cast<unsigned long>(file.tellg()) - static_cast<unsigned long>(sizeof(ac)));
+
+          file.write((char*)&ac,sizeof(ac));
+        }
+
+
+        }
+
+
+      }
+        file.close();
+}
+
+void deposit(){
+
+    account ac;
+    long accountNo;
+    long dep;
+
+    cout<<"Please enter your account number"<<endl;
+    cin>>accountNo;
+
+    cout<<"Please enter the deposit amount"<<endl;
+    cin>>dep;
+  
+    fstream file;
+    file.open("Bank.dat",ios::binary|ios::in|ios::out);
+
+      if(file.is_open()){
+        while(!file.eof()){
+
+          file.read((char*)&ac,sizeof(ac));
+
+        if(accountNo==ac.getAccountNum())
+        {
+          cout<<"Current:"<<endl;
+          ac.accountDetails();
+          ac.setDeposit(dep);
+
+          file.seekp(static_cast<unsigned long>(file.tellg()) - static_cast<unsigned long>(sizeof(ac)));
+
+          file.write((char*)&ac,sizeof(ac));
+        }
+
+
+        }
+
+
+      }
+        file.close();
+}
+
+
+void del(){
+
+  long acn;
+  account ac;
+  
+  fstream file("Bank.dat",ios::binary | ios::in | ios::out);
+
+  cout<<"enter account number to be deleted"<<endl;
+  cin>>acn;
+
+  while(!file.eof()){
+    file.read((char*)&ac,sizeof(ac));
+    if(acn==ac.getAccountNum()){
+
+      ac.disable();
+      
+      file.seekp(static_cast<unsigned long>(file.tellg()) - static_cast<unsigned long>(sizeof(ac)));
+      
+    file.write((char*)&ac,sizeof(ac));
     
+    }
+  }
+  file.close();
+
+}
 
 
 void showAllAccount(){
@@ -210,32 +280,26 @@ void showAllAccount(){
     account ac;
     ifstream infile;
     infile.open("Bank.dat",ios::binary|ios::in);
-
-      if(infile.is_open()){
-        while(!infile.eof()){
-
-          infile.read((char*)&ac,sizeof(ac));
+  
+        while(!infile.eof() && infile.read((char*)&ac,sizeof(ac))){
 
           
           ac.accountDetails();
           
         }
         
-        
-      }
         infile.close();
 }
 
 
 int main(){
 
+  
+  
 
-account ac;
 
- searchInAccount();
 
 
  return 0;
 
 }
-
