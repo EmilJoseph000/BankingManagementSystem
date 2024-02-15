@@ -3,6 +3,7 @@
 #include <string>
 #include <cstring>
 
+
 using namespace std;
 
 class account{
@@ -136,7 +137,13 @@ void writeToAccount(){
 
   outfile.write((char*)&ac,sizeof(ac));
   outfile.close();
+  cout<<"\n"<<"\n"<<endl;
+  
   ac.accountDetails();
+
+  cout<<"\n"<<"\n"<<endl;
+  cout<<"******Thank you for choosing Banking management solution"<<endl;
+  
   }
 
 
@@ -159,11 +166,12 @@ void searchInAccount(){
         if(accountNo==ac.getAccountNum())
         {
           ac.accountDetails();
+          break;
         }
           
 
         }
-
+          
 
       }
         infile.close();
@@ -294,8 +302,97 @@ void showAllAccount(){
 
 int main(){
 
+    int selection;
+    int option;
+
+
+  cout<<"\n"<<"-----------------------------"<<"\n"<<endl;
+  cout<<"\n"<<"      Enter your choice      "<<endl;
+  cout<<"                           "<<endl;
+  cout<<"            [1] MainMenu "<<endl;
+  cout<<"            [0] Exit      "<<endl;
+  cout<<"Enter choice [0] or [1]:";
+  cin>>selection;
+
   
-  
+  while(selection==1){
+    cout<<"\n"<<"\n"<<endl;
+
+    cout<<"**********************************************************"<<endl;
+    cout<<" ***************Banking Management System**************** "<<endl;
+
+    cout<<"\n"<<"\n"<<"\n"<<endl;
+    cout<<"Open Account     (1)"<<endl;
+    cout<<"Make a deposit   (2)"<<endl;
+    cout<<"Make a withdrawal(3)"<<endl;
+    cout<<"View Account  (4)"<<endl;
+    cout<<"Disable Account  (5)"<<endl;
+    cout<<"Show all accounts(6)"<<endl;
+    cout<<"Default Menu      (7)"<<endl;
+
+    cout<<"\n"<<"\n"<<"\n"<<endl;
+
+    cout<<"Please enter your selection: "<<endl;
+    cin>>option;    
+
+    
+    switch(option){
+
+      case 1:cout<<"\n"<<"You have selected to open an Account"<<"\n"<<endl;
+             writeToAccount();
+              break;
+
+      case 2:cout<<"\n"<<"You have selected to make a deposit"<<"\n"<<endl;
+              deposit();
+               break;       
+      
+      case 3:cout<<"\n"<<"You have selected to make a withdrawal"<<"\n"<<endl;
+              withdraw();
+              break;
+      
+      case 4:cout<<"\n"<<"You have selected to view your account"<<"\n"<<endl;
+              searchInAccount();
+              break;
+      
+      case 5:cout<<"\n"<<"You have selected to Disable your account"<<"\n"<<endl;
+              del();
+              break;
+
+      case 6:cout<<"\n"<<"You have selected to make show all accounts"<<"\n"<<endl;
+              showAllAccount();
+              break;
+            
+
+      case 7: cout<<"\n"<<"-----------------------------"<<"\n"<<endl;
+              cout<<"\n"<<"      Enter your choice      "<<endl;
+              cout<<"                           "<<endl;
+              cout<<"            [1] MainMenu "<<endl;
+              cout<<"            [0] Exit      "<<endl;
+              cout<<"Enter choice [0] or [1]:";
+              int choice;
+              cin>>choice;
+        
+            if(choice==0){
+              cout<<"                                                   "<<endl;
+              cout<<"                                                  "<<endl;
+              cout<<"**********************Exiting******************"<<endl;
+              cout<<" *******************Thank you****************  "<<endl;
+              cout<<"                                                "<<endl;
+              cout<<"   _______                     _______           "<<endl;
+              exit(0);
+            }
+            else cout<<". . . . . "<<endl;
+                break;
+      
+      default:cout<<"* * * * * * * * * * *"<<endl;
+              cout<<"  Invalid selection "<<endl;
+              cout<<"please enter a number from 1 to 7 "<<endl;
+              break;
+    }
+    
+  };
+
+
 
 
 
@@ -303,3 +400,4 @@ int main(){
  return 0;
 
 }
+
