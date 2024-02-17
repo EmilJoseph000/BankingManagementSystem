@@ -36,6 +36,12 @@ void createAccount(){
 
   cout<<"please enter your initial deposit"<<endl;
   cin>>balance;
+    while(!(cin>>balance)){
+    cout<<"Please only type in number:"<<endl;
+    cin.clear();
+    cin.ignore(1234,'\n');  
+  }
+  
 /*
   cout<<"acc"<<endl;
   cin>>accountNo;
