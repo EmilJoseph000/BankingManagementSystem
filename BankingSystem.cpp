@@ -4,6 +4,8 @@
 #include <cstring>
 
 
+
+
 using namespace std;
 
 class account{
@@ -31,16 +33,19 @@ void createAccount(){
   cout<<"Please enter your first name"<<endl;
   cin>>fname;
 
+
   cout<<"please enter your second name"<<endl;
   cin>>lname;
 
+
   cout<<"please enter your initial deposit"<<endl;
   cin>>balance;
-    while(!(cin>>balance)){
+  while(!(cin>>balance)){
     cout<<"Please only type in number:"<<endl;
     cin.clear();
     cin.ignore(1234,'\n');  
   }
+   
   
 /*
   cout<<"acc"<<endl;
@@ -116,9 +121,11 @@ long setDeposit(long dep){
   return balance+=dep;
 }
 
-long cashOut(long withdraw){
+long cashOut(long withdraw){ 
   return balance-=withdraw;
 }
+
+
 
 void disable(){
 
@@ -328,12 +335,12 @@ int main(){
     cout<<" ***************Banking Management System**************** "<<endl;
 
     cout<<"\n"<<"\n"<<"\n"<<endl;
-    cout<<"Open Account     (1)"<<endl;
-    cout<<"Make a deposit   (2)"<<endl;
-    cout<<"Make a withdrawal(3)"<<endl;
-    cout<<"View Account  (4)"<<endl;
-    cout<<"Disable Account  (5)"<<endl;
-    cout<<"Show all accounts(6)"<<endl;
+    cout<<"Open Account      (1)"<<endl;
+    cout<<"Make a deposit    (2)"<<endl;
+    cout<<"Make a withdrawal (3)"<<endl;
+    cout<<"View Account      (4)"<<endl;
+    cout<<"Disable Account   (5)"<<endl;
+    cout<<"Show all accounts (6)"<<endl;
     cout<<"Default Menu      (7)"<<endl;
 
     cout<<"\n"<<"\n"<<"\n"<<endl;
@@ -406,4 +413,3 @@ int main(){
  return 0;
 
 }
-
